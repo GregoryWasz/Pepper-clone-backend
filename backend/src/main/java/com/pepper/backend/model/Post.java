@@ -12,19 +12,20 @@ import java.util.Set;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long post_id;
+    @Column(name="postId")
+    private long postId;
     private String content;
-    private Date post_date;
-    private double price_before;
-    private double price_after;
+    private Date postDate;
+    private double priceBefore;
+    private double priceAfter;
     private int votes;
     private boolean active;
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "tag_id", referencedColumnName = "tag_id")
+    @ManyToOne
+    @JoinColumn(name="tagId", nullable=false)
     private Tag tag;
 
     @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
+    @JoinColumn(name="userId", nullable=false)
     private User user;
 
     @OneToMany(mappedBy="post")
