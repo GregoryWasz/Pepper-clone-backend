@@ -29,7 +29,7 @@ public class UserService {
 
     public User addUser(User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Role role = roleRepository.findByRoleName("USER")
+        Role role = roleRepository.findByRoleName("ROLE_USER")
                 .orElseThrow(() -> new ResourceNotFoundException("User not exist with id: " ));
         user.setRole(role);
         return userRepository.save(user);
