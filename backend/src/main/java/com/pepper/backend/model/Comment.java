@@ -11,15 +11,16 @@ import java.util.Date;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long comment_id;
+    @Column(name="commentId")
+    private long commentId;
     private String content;
-    private Date comment_date;
+    private Date commentDate;
 
     @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
+    @JoinColumn(name="userId", nullable=false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="post_id", nullable=false)
+    @JoinColumn(name="postId", nullable=false)
     private Post post;
 }
