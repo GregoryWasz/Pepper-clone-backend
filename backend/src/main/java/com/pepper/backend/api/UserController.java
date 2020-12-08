@@ -24,4 +24,13 @@ public class UserController {
     public User addUser(@RequestBody User user){
         return userService.addUser(user);
     }
+
+    // TODO GET by id (view user)
+    // TODO PUT change by id (change = name, password, email)
+    // TODO DELETE by id (delete user)
+    // TODO Search Get by name (search users by UserName)
+    // TODO Search Get by email (search users by Email)
+    // TODO Get all user posts
+    // TODO VALIDATION
+    // TODO Pagination
 }

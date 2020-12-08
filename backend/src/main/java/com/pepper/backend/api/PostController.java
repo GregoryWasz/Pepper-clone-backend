@@ -23,4 +23,11 @@ public class PostController {
     public Post addPost(@RequestBody Post post){
         return postService.addPost(post);
     }
+
+    // TODO GET by id (view Post)
+    // TODO PUT change by id (change title, content, pricebefore, priceafter, active)
+    // TODO DELETE by id (delete Tag)
+    // TODO Search Get by name (search tags by PostName)
+    // TODO VALIDATION
+    // TODO Pagination
 }

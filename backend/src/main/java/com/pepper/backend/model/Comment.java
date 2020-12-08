@@ -24,3 +24,11 @@ public class Comment {
     @JoinColumn(name="postId", nullable=false)
     private Post post;
 }
+
+// TODO Create Repository, Service, Controller
+// TODO Create New Comment
+// TODO GET by id (view Comment)
+// TODO PUT change by id (change content)
+// TODO DELETE by id (delete Comment)
+// TODO Pagination
+// TODO VALIDATION

@@ -19,3 +19,5 @@ public class Tag {
     @OneToMany(mappedBy="tag")
     private Set<Post> posts;
 }
+
+// TODO VALIDATION

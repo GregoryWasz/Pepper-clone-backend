@@ -14,6 +14,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="postId")
     private long postId;
+    // TODO Add Title
     private String content;
     private Date postDate;
     private double priceBefore;
@@ -31,3 +32,4 @@ public class Post {
     @OneToMany(mappedBy="post")
     private Set<Comment> PostComments;
 }
+// TODO VALIDATION

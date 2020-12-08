@@ -19,3 +19,6 @@ public class Role {
     @OneToMany(mappedBy="role")
     private Set<User> user;
 }
+
+// TODO Create basic ROLE_USER, ROLE_ADMIN
+// TODO VALIDATION

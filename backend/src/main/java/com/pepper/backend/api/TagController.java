@@ -29,4 +29,10 @@ public class TagController {
     public ResponseEntity<Tag> getTagById(@PathVariable Long id){
         return tagService.getTagById(id);
     }
+
+    // TODO GET by id (view tag)
+    // TODO PUT change by id (change TagName)
+    // TODO DELETE by id (delete Tag)
+    // TODO Search Get by name (search tags by TagName)
+    // TODO VALIDATION
 }

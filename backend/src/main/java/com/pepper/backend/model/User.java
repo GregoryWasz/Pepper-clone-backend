@@ -44,3 +44,10 @@ public class User implements UserDetails {
         return Arrays.asList(new SimpleGrantedAuthority(getRole().getRoleName()));
     }
 }
+
+// TODO Admin Create Admin
+// TODO Admin Site -> Delete User, Ban User, Delete Post, Delete Comment,
+// TODO VALIDATION
+// TODO VOTESYSTEM
+// TODO PICTRUES for users and posts,
+// TODO USER PROFILE

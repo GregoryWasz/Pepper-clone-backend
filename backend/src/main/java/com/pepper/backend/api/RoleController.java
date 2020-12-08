@@ -31,6 +31,9 @@ public class RoleController {
         return ResponseEntity.ok(role);
     }
 
-
+    // TODO GET by id (view Role)
+    // TODO PUT change by id (change RoleName)
+    // TODO DELETE by id (delete Role)
+    // TODO VALIDATION
 }
 
