@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/")
@@ -21,7 +23,7 @@ public class TagController {
     }
 
     @PostMapping("/tags")
-    public Tag addTag(@RequestBody Tag tag){
+    public Tag addTag(@Valid @RequestBody Tag tag){
         return tagService.addTag(tag);
     }
 
@@ -30,9 +32,18 @@ public class TagController {
         return tagService.getTagById(id);
     }
 
-    // TODO GET by id (view tag)
-    // TODO PUT change by id (change TagName)
-    // TODO DELETE by id (delete Tag)
-    // TODO Search Get by name (search tags by TagName)
-    // TODO VALIDATION
+    @GetMapping("/tags/name/{tagName}")
+    public ResponseEntity<Tag> getTagByTagName(@PathVariable String tagName){
+        return tagService.getTagByTagName(tagName);
+    }
+
+    @PutMapping("/tags/{id}")
+    public ResponseEntity<Tag> updateTag(@PathVariable Long id, @RequestBody Tag updatedTag){
+        return tagService.updateTag(id, updatedTag);
+    }
+
+    @DeleteMapping("/tags/{id}")
+    public ResponseEntity<Map<String,Boolean>> deleteTag(@PathVariable Long id){
+        return tagService.deleteTag(id);
+    }
 }
