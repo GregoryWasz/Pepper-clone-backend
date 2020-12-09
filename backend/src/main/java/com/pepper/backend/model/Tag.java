@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Data
@@ -13,11 +15,12 @@ import java.util.Set;
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="tagId")
+    @Column(name="tagId", updatable = false, nullable = false)
     private long tagId;
+    @Size(min = 2, max = 20)
+    @NotBlank(message = "tagName is mandatory")
+    @Column(unique = true)
     private String tagName;
     @OneToMany(mappedBy="tag")
     private Set<Post> posts;
 }
-
-// TODO VALIDATION
