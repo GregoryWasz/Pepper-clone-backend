@@ -15,25 +15,27 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
-    @GetMapping("/role")
+    @GetMapping("/roles")
     public List<Role> getAllRoles() {
         return roleService.getAllRoles();
     }
 
-    @PostMapping("/role")
+    @PostMapping("/roles")
     public Role addRole(@RequestBody Role role){
         return roleService.addRole(role);
     }
 
-    @GetMapping("/role/{id}")
+    @GetMapping("/roles/{id}")
     public ResponseEntity<Role> getRole(@PathVariable int id){
         Role role = roleService.findRoleById(id);
         return ResponseEntity.ok(role);
     }
 
     // TODO GET by id (view Role)
+    // TODO Get by name
     // TODO PUT change by id (change RoleName)
     // TODO DELETE by id (delete Role)
-    // TODO VALIDATION
+    // TODO VALIDATION REGEX AND STRINGBUILDER
+    // TODO SECURITY ONLY ADMIN ACCESS
 }
 
