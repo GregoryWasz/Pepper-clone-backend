@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Data
@@ -13,12 +15,11 @@ import java.util.Set;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="roleId")
-    private int roleId;
+    @Column(name="roleId", updatable = false, nullable = false)
+    private Long roleId;
+    @Size(min = 2, max = 20)
+    @NotBlank(message = "RoleName is mandatory")
     private String roleName;
     @OneToMany(mappedBy="role")
     private Set<User> user;
 }
-
-// TODO Create basic ROLE_USER, ROLE_ADMIN
-// TODO VALIDATION
