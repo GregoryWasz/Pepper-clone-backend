@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/")
@@ -21,20 +23,31 @@ public class RoleController {
     }
 
     @PostMapping("/roles")
-    public Role addRole(@RequestBody Role role){
+    public Role addRole(@Valid @RequestBody Role role) {
         return roleService.addRole(role);
     }
 
     @GetMapping("/roles/{id}")
-    public ResponseEntity<Role> getRole(@PathVariable int id){
-        Role role = roleService.findRoleById(id);
+    public Role getRoleById(@PathVariable int id) {
+        return roleService.findRoleById(id);
+    }
+
+    @GetMapping("/roles/{roleName}")
+    public ResponseEntity<Role> getRoleByRoleName(@PathVariable String roleName) {
+        Role role = roleService.findRoleByName(roleName);
         return ResponseEntity.ok(role);
     }
 
-    // TODO GET by id (view Role)
-    // TODO Get by name
-    // TODO PUT change by id (change RoleName)
-    // TODO DELETE by id (delete Role)
+    @PutMapping("/roles/{id}")
+    public ResponseEntity<Role> updateRole(@PathVariable long id, @Valid @RequestBody Role role) {
+        return roleService.updateRole(id, role);
+    }
+
+    @DeleteMapping("/roles/{id}")
+    public ResponseEntity<Map<String,Boolean>> deleteRole(@PathVariable long id) {
+        return roleService.deleteRole(id);
+    }
+
     // TODO VALIDATION REGEX AND STRINGBUILDER
     // TODO SECURITY ONLY ADMIN ACCESS
 }
