@@ -56,7 +56,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/api/v1/users").permitAll()
-                .antMatchers("/api/v1/role").hasRole("USER")
+                //TODO SET ROLES TO ADMIN ONLY
+                .antMatchers("/api/v1/roles").hasAnyRole("USER", "ADMIN")
+                //TODO SET TAGS TO DELETE ADMIN ONLY
                 .antMatchers("/api/v1/tags").hasRole("USER")
                 .antMatchers("/api/v1/posts").hasRole("USER")
                 .anyRequest()
