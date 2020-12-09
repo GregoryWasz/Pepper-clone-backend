@@ -19,6 +19,14 @@ public class RoleService {
     private RoleRepository roleRepository;
 
     private void RoleNameValidation(Role role){
+        String roleName = role.getRoleName().toUpperCase();
+        role.setRoleName(roleName);
+        boolean roleMatcher = roleName.matches("ROLE_[A-Z]+");
+        if(!roleMatcher){
+            String rolePrefix = "ROLE_";
+            String roleNameWithPrefix = rolePrefix.concat(roleName);
+            role.setRoleName(roleNameWithPrefix);
+        }
         boolean matchFound = roleRepository.findAll().stream()
                 .anyMatch(foundedRole -> foundedRole.getRoleName().equals(role.getRoleName()));
         if(matchFound){
