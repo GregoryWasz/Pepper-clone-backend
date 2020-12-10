@@ -21,10 +21,8 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="userId", updatable = false, nullable = false)
     private long userId;
-    @Size(min = 3, max = 30)
     @NotBlank(message = "username is mandatory")
     private String username;
-    @Size(min = 8, max = 30)
     @NotBlank(message = "password is mandatory")
     private String password;
     @Email(message = "email is mandatory")

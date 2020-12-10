@@ -17,7 +17,6 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="tagId", updatable = false, nullable = false)
     private long tagId;
-    @Size(min = 2, max = 20)
     @NotBlank(message = "tagName is mandatory")
     @Column(unique = true)
     private String tagName;

@@ -17,7 +17,6 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="roleId", updatable = false, nullable = false)
     private Long roleId;
-    @Size(min = 2, max = 20)
     @NotBlank(message = "RoleName is mandatory")
     private String roleName;
     @OneToMany(mappedBy="role")
