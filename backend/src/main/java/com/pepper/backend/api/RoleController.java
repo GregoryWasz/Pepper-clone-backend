@@ -48,7 +48,5 @@ public class RoleController {
         return roleService.deleteRole(id);
     }
 
-    // TODO VALIDATION REGEX AND STRINGBUILDER
-    // TODO SECURITY ONLY ADMIN ACCESS
 }
 

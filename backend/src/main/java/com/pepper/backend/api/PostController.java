@@ -28,6 +28,7 @@ public class PostController {
     // TODO PUT change by id (change title, content, pricebefore, priceafter, active)
     // TODO DELETE by id (delete Tag)
     // TODO Search Get by name (search tags by PostName)
+    // TODO Get all user posts -> Post
     // TODO VALIDATION
     // TODO Pagination
 }
