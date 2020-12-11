@@ -1,6 +1,6 @@
 package com.pepper.backend.service;
 
-import com.pepper.backend.dto.UsernameAndEmailDTO;
+import com.pepper.backend.dto.UsernameAndEmailDto;
 import com.pepper.backend.exception.AlreadyExistException;
 import com.pepper.backend.exception.ResourceNotFoundException;
 import com.pepper.backend.exception.UnauthenticatedException;
@@ -65,11 +65,11 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new EntityExistsException("User " + username + " doesn't exist"));
     }
 
-    public List<UsernameAndEmailDTO> getAllUsers() {
+    public List<UsernameAndEmailDto> getAllUsers() {
         return userRepository.findAllProjectedBy();
     }
 
-    public UsernameAndEmailDTO getUsernameAndEmailById(long id) {
+    public UsernameAndEmailDto getUsernameAndEmailById(long id) {
         return userRepository.findByUserId(id);
     }
 

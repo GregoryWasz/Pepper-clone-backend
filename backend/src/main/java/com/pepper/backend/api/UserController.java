@@ -1,7 +1,7 @@
 package com.pepper.backend.api;
 
 
-import com.pepper.backend.dto.UsernameAndEmailDTO;
+import com.pepper.backend.dto.UsernameAndEmailDto;
 import com.pepper.backend.model.User;
 import com.pepper.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +19,12 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/users")
-    public List<UsernameAndEmailDTO> getAllUsers() {
+    public List<UsernameAndEmailDto> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/users/{id}")
-    public UsernameAndEmailDTO getUserById(@PathVariable Long id) {
+    public UsernameAndEmailDto getUserById(@PathVariable Long id) {
         return userService.getUsernameAndEmailById(id);
     }
 

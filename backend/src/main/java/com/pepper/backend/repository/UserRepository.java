@@ -1,6 +1,6 @@
 package com.pepper.backend.repository;
 
-import com.pepper.backend.dto.UsernameAndEmailDTO;
+import com.pepper.backend.dto.UsernameAndEmailDto;
 import com.pepper.backend.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository <User, Long> {
 
     Optional<User> findByUsername(String username);
 
-    List<UsernameAndEmailDTO> findAllProjectedBy();
+    List<UsernameAndEmailDto> findAllProjectedBy();
 
-    UsernameAndEmailDTO findByUserId(Long id);
+    UsernameAndEmailDto findByUserId(Long id);
 }
