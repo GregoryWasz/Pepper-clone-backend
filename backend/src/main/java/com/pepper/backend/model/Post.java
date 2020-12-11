@@ -10,17 +10,26 @@ import java.util.Set;
 @Entity
 @Table(name = "posts")
 public class Post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="postId")
     private long postId;
-    // TODO Add Title
+
+    private String title;
+
     private String content;
+
     private Date postDate;
+
     private double priceBefore;
+
     private double priceAfter;
+
     private int votes;
+
     private boolean active;
+
     @ManyToOne
     @JoinColumn(name="tagId", nullable=false)
     private Tag tag;

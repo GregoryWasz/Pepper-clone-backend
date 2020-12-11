@@ -9,11 +9,14 @@ import java.util.Date;
 @Entity
 @Table(name = "comments")
 public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="commentId")
     private long commentId;
+
     private String content;
+
     private Date commentDate;
 
     @ManyToOne

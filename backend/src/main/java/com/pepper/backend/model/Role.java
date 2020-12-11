@@ -5,7 +5,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Data
@@ -17,8 +16,10 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="roleId", updatable = false, nullable = false)
     private Long roleId;
+
     @NotBlank(message = "RoleName is mandatory")
     private String roleName;
+
     @OneToMany(mappedBy="role")
     private Set<User> user;
 }
