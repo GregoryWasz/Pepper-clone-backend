@@ -1,6 +1,7 @@
 package com.pepper.backend.api;
 
 
+import com.pepper.backend.dto.UsernameAndEmailDTO;
 import com.pepper.backend.model.User;
 import com.pepper.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,13 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/users")
-    public List<User> getAllUsers() {
+    public List<UsernameAndEmailDTO> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @GetMapping("/users/{id}")
+    public UsernameAndEmailDTO getUserById(@PathVariable Long id) {
+        return userService.getUsernameAndEmailById(id);
     }
 
     @PostMapping("/users/register")
@@ -46,9 +52,4 @@ public class UserController {
     public ResponseEntity<String> changePassword(@PathVariable long id, @RequestBody User user){
         return userService.changePassword(id, user);
     }
-
-    // TODO GET all users (Username and email only)
-    // TODO GET by id (Username and email only)
-    // TODO Search Get by name (Username and email only)
-    // TODO Search Get by email (Username and email only)
 }

@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
@@ -17,16 +16,21 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="userId", updatable = false, nullable = false)
     private long userId;
+
     @NotBlank(message = "username is mandatory")
     private String username;
+
     @NotBlank(message = "password is mandatory")
     private String password;
+
     @Email(message = "email is mandatory")
     private String email;
+
     @ManyToOne
     @JoinColumn(name="roleId", nullable=false)
     private Role role;
@@ -38,9 +42,13 @@ public class User implements UserDetails {
     private Set<Comment> UserComments;
 
     private String createdBy = "site";
+
     private boolean accountNonExpired = true;
+
     private boolean accountNonLocked = true;
+
     private boolean credentialsNonExpired = true;
+
     private boolean enabled = true;
 
     @Override
