@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/")
@@ -34,22 +33,22 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<Map<String,Boolean>> deleteUser(@PathVariable long id){
+    public ResponseEntity<?> deleteUser(@PathVariable long id){
         return userService.deleteUser(id);
     }
 
     @PatchMapping("users/change/username/{id}")
-    public ResponseEntity<String> changeUsername(@PathVariable long id, @RequestBody User user){
+    public ResponseEntity<?> changeUsername(@PathVariable long id, @RequestBody User user){
         return userService.changeUsername(id, user);
     }
 
     @PatchMapping("users/change/email/{id}")
-    public ResponseEntity<String> changeEmail(@PathVariable long id, @RequestBody User user){
+    public ResponseEntity<?> changeEmail(@PathVariable long id, @RequestBody User user){
         return userService.changeEmail(id, user);
     }
 
     @PatchMapping("users/change/password/{id}")
-    public ResponseEntity<String> changePassword(@PathVariable long id, @RequestBody User user){
+    public ResponseEntity<?> changePassword(@PathVariable long id, @RequestBody User user){
         return userService.changePassword(id, user);
     }
 }
