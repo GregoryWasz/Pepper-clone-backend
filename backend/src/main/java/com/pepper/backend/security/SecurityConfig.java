@@ -55,12 +55,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/api/v1/users/register").permitAll()
                 .antMatchers("/api/v1/users").permitAll()
                 //TODO SET ROLES TO ADMIN ONLY
-                .antMatchers("/api/v1/roles").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/api/v1/roles").hasAnyRole("USER")
                 //TODO SET TAGS TO DELETE ADMIN ONLY
-                .antMatchers("/api/v1/tags").hasRole("USER")
-                .antMatchers("/api/v1/posts").hasRole("USER")
+                .antMatchers("/api/v1/tags").permitAll()
+                .antMatchers("/api/v1/posts").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

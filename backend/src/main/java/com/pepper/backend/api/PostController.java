@@ -1,8 +1,13 @@
 package com.pepper.backend.api;
 
+import com.pepper.backend.dto.CreatePostDto;
+import com.pepper.backend.dto.MessageDto;
+import com.pepper.backend.dto.UpdatePostDto;
 import com.pepper.backend.model.Post;
 import com.pepper.backend.service.PostService;
+import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,20 +20,32 @@ public class PostController {
     private PostService postService;
 
     @GetMapping("/posts")
-    public List<Post> getAllPosts(){
-        return postService.getAllPosts();
+    public ResponseEntity<?> getAllPosts() {
+        return ResponseEntity.ok(postService.getAllPosts());
     }
 
     @PostMapping("/posts")
-    public Post addPost(@RequestBody Post post){
-        return postService.addPost(post);
+    public ResponseEntity<?> addPost(@RequestBody CreatePostDto createPostDto) {
+        return ResponseEntity.ok(postService.addPost(createPostDto));
     }
 
-    // TODO GET by id (view Post)
-    // TODO PUT change by id (change title, content, pricebefore, priceafter, active)
-    // TODO DELETE by id (delete Tag)
+    @GetMapping("/posts/{id}")
+    public ResponseEntity<?> getPostById(@PathVariable Long id) {
+        return ResponseEntity.ok(postService.getPostById(id));
+    }
+
+    @PutMapping("/posts/{id}")
+    public ResponseEntity<?> updatePost(@PathVariable Long id, @RequestBody UpdatePostDto updatePostDto) {
+        return ResponseEntity.ok(postService.updatePost(id, updatePostDto));
+    }
+
+    @DeleteMapping("/posts/{id}")
+    public ResponseEntity<?> deletePost(@PathVariable Long id) {
+        postService.deletePost(id);
+        return ResponseEntity.ok(new MessageDto("Post successfully deleted"));
+    }
+
     // TODO Search Get by name (search tags by PostName)
     // TODO Get all user posts -> Post
     // TODO VALIDATION
-    // TODO Pagination
 }
