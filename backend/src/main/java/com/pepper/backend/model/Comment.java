@@ -3,6 +3,7 @@ package com.pepper.backend.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -17,14 +18,13 @@ public class Comment {
 
     private String content;
 
-    private Date commentDate;
+    private LocalDateTime postDate = LocalDateTime.now();
 
     private long userId;
 
     private long postId;
 }
 
-// TODO Create Repository, Service, Controller
 // TODO Create New Comment
 // TODO GET by id (view Comment)
 // TODO PUT change by id (change content)
