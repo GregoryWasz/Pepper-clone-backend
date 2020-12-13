@@ -19,13 +19,9 @@ public class Comment {
 
     private Date commentDate;
 
-    @ManyToOne
-    @JoinColumn(name="userId", nullable=false)
-    private User user;
+    private long userId;
 
-    @ManyToOne
-    @JoinColumn(name="postId", nullable=false)
-    private Post post;
+    private long postId;
 }
 
 // TODO Create Repository, Service, Controller

@@ -35,12 +35,6 @@ public class User implements UserDetails {
     @JoinColumn(name="roleId", nullable=false)
     private Role role;
 
-    @OneToMany(mappedBy="user")
-    private Set<Post> posts;
-
-    @OneToMany(mappedBy="user")
-    private Set<Comment> UserComments;
-
     private String createdBy = "site";
 
     private boolean accountNonExpired = true;

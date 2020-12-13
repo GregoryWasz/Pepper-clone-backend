@@ -1,10 +1,11 @@
 package com.pepper.backend.model;
 
 import lombok.Data;
+import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.Set;
 
 @Data
 @Entity
@@ -20,25 +21,18 @@ public class Post {
 
     private String content;
 
-    private Date postDate;
+    private LocalDateTime postDate = LocalDateTime.now();
 
     private double priceBefore;
 
     private double priceAfter;
 
-    private int votes;
+    private int votes = 0;
 
-    private boolean active;
+    private boolean active = true;
 
-    @ManyToOne
-    @JoinColumn(name="tagId", nullable=false)
-    private Tag tag;
+    private long tagId;
 
-    @ManyToOne
-    @JoinColumn(name="userId", nullable=false)
-    private User user;
-
-    @OneToMany(mappedBy="post")
-    private Set<Comment> PostComments;
+    private long userId;
 }
 // TODO VALIDATION

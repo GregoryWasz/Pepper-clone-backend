@@ -21,7 +21,4 @@ public class Tag {
     @NotBlank(message = "tagName is mandatory")
     @Column(unique = true)
     private String tagName;
-
-    @OneToMany(mappedBy="tag")
-    private Set<Post> posts;
 }
