@@ -4,7 +4,7 @@ import com.pepper.backend.exception.AlreadyExistException;
 import com.pepper.backend.exception.ResourceNotFoundException;
 import com.pepper.backend.model.Role;
 import com.pepper.backend.repository.RoleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class RoleService {
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
     private void RoleNameValidation(Role role){
         String roleName = role.getRoleName().toUpperCase();
@@ -62,12 +62,9 @@ public class RoleService {
         return ResponseEntity.ok(role);
     }
 
-    public ResponseEntity<Map<String,Boolean>> deleteRole(long id) {
+    public void deleteRole(long id) {
         Role role = roleRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Role not exist with id: " + id));
         roleRepository.delete(role);
-        Map<String,Boolean> response = new HashMap<>();
-        response.put("Deleted", Boolean.TRUE);
-        return ResponseEntity.ok(response);
     }
 }

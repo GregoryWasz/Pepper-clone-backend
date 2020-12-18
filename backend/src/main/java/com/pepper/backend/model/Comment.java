@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @Entity
@@ -24,10 +23,3 @@ public class Comment {
 
     private long postId;
 }
-
-// TODO Create New Comment
-// TODO GET by id (view Comment)
-// TODO PUT change by id (change content)
-// TODO DELETE by id (delete Comment)
-// TODO Pagination
-// TODO VALIDATION

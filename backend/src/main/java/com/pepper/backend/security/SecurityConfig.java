@@ -1,7 +1,8 @@
 package com.pepper.backend.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.pepper.backend.service.UserService;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,29 +18,27 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Qualifier("userService")
-    @Autowired
-    UserDetailsService userDetailsService;
-
-    private RestAuthenticationSuccessHandler authenticationSuccessHandler;
-    private RestAuthenticationFailureHandler authenticationFailureHandler;
-    private PasswordEncoder passwordEncoder;
+    private final UserService userService;
+    private final RestAuthenticationSuccessHandler authenticationSuccessHandler;
+    private final RestAuthenticationFailureHandler authenticationFailureHandler;
+    private final PasswordEncoder passwordEncoder;
 
     public SecurityConfig(PasswordEncoder passwordEncoder,
-                          @Qualifier("userService") UserDetailsService userDetailsService,
+                          UserService userService,
                           RestAuthenticationSuccessHandler authenticationSuccessHandler,
                           RestAuthenticationFailureHandler authenticationFailureHandler) {
         this.passwordEncoder = passwordEncoder;
-        this.userDetailsService = userDetailsService;
+        this.userService = userService;
         this.authenticationSuccessHandler = authenticationSuccessHandler;
         this.authenticationFailureHandler = authenticationFailureHandler;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
     }
 
     @Bean
@@ -55,13 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/api/v1/users/register").permitAll()
-                .antMatchers("/api/v1/users").permitAll()
-                //TODO SET ROLES TO ADMIN ONLY
-                .antMatchers("/api/v1/roles").hasAnyRole("USER")
-                //TODO SET TAGS TO DELETE ADMIN ONLY
-                .antMatchers("/api/v1/tags").permitAll()
-                .antMatchers("/api/v1/posts").permitAll()
+                .antMatchers("/roles").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()

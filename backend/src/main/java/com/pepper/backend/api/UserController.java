@@ -4,51 +4,57 @@ package com.pepper.backend.api;
 import com.pepper.backend.dto.UsernameAndEmailDto;
 import com.pepper.backend.model.User;
 import com.pepper.backend.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/users")
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @GetMapping("/users")
+    @GetMapping("")
     public List<UsernameAndEmailDto> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public UsernameAndEmailDto getUserById(@PathVariable Long id) {
         return userService.getUsernameAndEmailById(id);
     }
 
-    @PostMapping("/users/register")
-    public User addUser(@RequestBody User user){
+    @PostMapping("/register")
+    public User addUser(@RequestBody User user) {
         return userService.addUser(user);
     }
 
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable long id){
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    public ResponseEntity<?> deleteUser(@PathVariable long id) {
         return userService.deleteUser(id);
     }
 
-    @PatchMapping("users/change/username/{id}")
-    public ResponseEntity<?> changeUsername(@PathVariable long id, @RequestBody User user){
+    @PatchMapping("/change/username/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    public ResponseEntity<?> changeUsername(@PathVariable long id, @RequestBody User user) {
         return userService.changeUsername(id, user);
     }
 
-    @PatchMapping("users/change/email/{id}")
-    public ResponseEntity<?> changeEmail(@PathVariable long id, @RequestBody User user){
+    @PatchMapping("/change/email/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    public ResponseEntity<?> changeEmail(@PathVariable long id, @RequestBody User user) {
         return userService.changeEmail(id, user);
     }
 
-    @PatchMapping("users/change/password/{id}")
-    public ResponseEntity<?> changePassword(@PathVariable long id, @RequestBody User user){
+    @PatchMapping("/change/password/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    public ResponseEntity<?> changePassword(@PathVariable long id, @RequestBody User user) {
         return userService.changePassword(id, user);
     }
+    // TODO Get all user posts -> Post
 }

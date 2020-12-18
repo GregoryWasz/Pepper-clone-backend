@@ -1,9 +1,11 @@
 package com.pepper.backend.api;
 
+import com.pepper.backend.dto.MessageDto;
 import com.pepper.backend.model.Tag;
 import com.pepper.backend.service.TagService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -11,39 +13,43 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/tags")
+@RequiredArgsConstructor
 public class TagController {
 
-    @Autowired
-    private TagService tagService;
+    private final TagService tagService;
 
-    @GetMapping("/tags")
-    public List<Tag> getAllTags(){
+    @GetMapping("")
+    public List<Tag> getAllTags() {
         return tagService.findAllTags();
     }
 
-    @PostMapping("/tags")
-    public Tag addTag(@Valid @RequestBody Tag tag){
+    @PostMapping("")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    public Tag addTag(@Valid @RequestBody Tag tag) {
         return tagService.addTag(tag);
     }
 
-    @GetMapping("/tags/{id}")
-    public ResponseEntity<Tag> getTagById(@PathVariable Long id){
+    @GetMapping("/{id}")
+    public ResponseEntity<Tag> getTagById(@PathVariable Long id) {
         return tagService.getTagById(id);
     }
 
-    @GetMapping("/tags/name/{tagName}")
-    public ResponseEntity<Tag> getTagByTagName(@PathVariable String tagName){
+    @GetMapping("/name/{tagName}")
+    public ResponseEntity<Tag> getTagByTagName(@PathVariable String tagName) {
         return tagService.getTagByTagName(tagName);
     }
 
-    @PutMapping("/tags/{id}")
-    public ResponseEntity<Tag> updateTag(@PathVariable Long id, @RequestBody Tag updatedTag){
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public Tag updateTag(@PathVariable Long id, @RequestBody Tag updatedTag) {
         return tagService.updateTag(id, updatedTag);
     }
 
-    @DeleteMapping("/tags/{id}")
-    public ResponseEntity<Map<String,Boolean>> deleteTag(@PathVariable Long id){
-        return tagService.deleteTag(id);
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public ResponseEntity<?> deleteTag(@PathVariable Long id) {
+        tagService.deleteTag(id);
+        return ResponseEntity.ok(new MessageDto("Tag successfully deleted"));
     }
 }

@@ -9,7 +9,7 @@ import com.pepper.backend.model.Role;
 import com.pepper.backend.model.User;
 import com.pepper.backend.repository.RoleRepository;
 import com.pepper.backend.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,18 +23,16 @@ import javax.persistence.EntityExistsException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    private void ValidateLoggedUser(String userForChange){
+    private void LoggedUserValidation(String userForChange){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String loggedInUserName = authentication.getName();
         if(!loggedInUserName.equals(userForChange)){
@@ -93,7 +91,7 @@ public class UserService implements UserDetailsService {
         UsernameValidation(updatedUser);
         User oldUser = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id:" + id + " not exist"));
-        ValidateLoggedUser(oldUser.getUsername());
+        LoggedUserValidation(oldUser.getUsername());
         oldUser.setUsername(updatedUser.getUsername());
         return ResponseEntity.ok(new MessageDto("Username successfully changed"));
     }
@@ -102,7 +100,7 @@ public class UserService implements UserDetailsService {
         EmailValidation(updatedUser);
         User oldUser = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id:" + id + " not exist"));
-        ValidateLoggedUser(oldUser.getUsername());
+        LoggedUserValidation(oldUser.getUsername());
         oldUser.setEmail(updatedUser.getEmail());
         userRepository.save(oldUser);
         return ResponseEntity.ok(new MessageDto("Email successfully changed"));
@@ -111,7 +109,7 @@ public class UserService implements UserDetailsService {
     public ResponseEntity<?> changePassword(long id, User updatedUser) {
         User oldUser = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id:" + id + " not exist"));
-        ValidateLoggedUser(oldUser.getUsername());
+        LoggedUserValidation(oldUser.getUsername());
         oldUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         userRepository.save(oldUser);
         return ResponseEntity.ok(new MessageDto("Password successfully changed"));

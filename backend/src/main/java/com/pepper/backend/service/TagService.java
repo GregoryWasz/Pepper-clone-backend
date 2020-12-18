@@ -5,19 +5,17 @@ import com.pepper.backend.exception.IdOverrideException;
 import com.pepper.backend.exception.ResourceNotFoundException;
 import com.pepper.backend.model.Tag;
 import com.pepper.backend.repository.TagRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class TagService {
 
-    @Autowired
-    private TagRepository tagRepository;
+    private final TagRepository tagRepository;
 
     public List<Tag> findAllTags(){
         return tagRepository.findAll();
@@ -51,21 +49,18 @@ public class TagService {
         return ResponseEntity.ok(tag);
     }
 
-    public ResponseEntity<Tag> updateTag(Long id, Tag updatedTag){
+    public Tag updateTag(Long id, Tag updatedTag){
         TagNameValidation(updatedTag);
         Tag tag = tagRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + id));
         tag.setTagName(updatedTag.getTagName());
         tagRepository.save(tag);
-        return ResponseEntity.ok(tag);
+        return tagRepository.save(tag);
     }
 
-    public ResponseEntity<Map<String,Boolean>> deleteTag(Long id){
+    public void deleteTag(Long id){
         Tag tag = tagRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Tag not exist with id: " + id));
         tagRepository.delete(tag);
-        Map <String, Boolean> result = new HashMap<>();
-        result.put("Deleted", Boolean.TRUE);
-        return ResponseEntity.ok(result);
     }
 }

@@ -3,11 +3,12 @@ package com.pepper.backend.service;
 import com.pepper.backend.dto.CreatePostDto;
 import com.pepper.backend.dto.UpdatePostDto;
 import com.pepper.backend.exception.ResourceNotFoundException;
+import com.pepper.backend.exception.UnauthenticatedException;
 import com.pepper.backend.model.Post;
 import com.pepper.backend.model.User;
 import com.pepper.backend.repository.PostRepository;
 import com.pepper.backend.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -15,13 +16,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PostService {
 
-    @Autowired
-    private PostRepository postRepository;
+    private final PostRepository postRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public List<Post> getAllPosts(){
         return postRepository.findAll();
@@ -49,6 +49,7 @@ public class PostService {
     }
 
     public void deletePost(long id) {
+
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Post with id " + id + " not exist"));
         postRepository.delete(post);
@@ -63,5 +64,10 @@ public class PostService {
         post.setPriceAfter(userPost.getPriceAfter());
         post.setActive(userPost.getActive());
         return postRepository.save(post);
+    }
+
+    public Post getPostByTitle(String title) {
+        return postRepository.findByTitle(title)
+                .orElseThrow(() -> new ResourceNotFoundException("Post with title " + title + " not exist"));
     }
 }

@@ -2,16 +2,16 @@ package com.pepper.backend.service;
 
 import com.pepper.backend.model.Comment;
 import com.pepper.backend.repository.CommentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CommentService {
 
-    @Autowired
-    private CommentRepository commentRepository;
+    private final CommentRepository commentRepository;
 
     public List<Comment> getAllComments() {
         return commentRepository.findAll();
