@@ -56,5 +56,5 @@ public class UserController {
     public ResponseEntity<?> changePassword(@PathVariable long id, @RequestBody User user) {
         return userService.changePassword(id, user);
     }
-    // TODO Get all user posts -> Post
+    // TODO Get all user posts
 }
