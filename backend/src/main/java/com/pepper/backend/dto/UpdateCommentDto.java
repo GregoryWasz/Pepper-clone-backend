@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class CommentDto {
+public class UpdateCommentDto {
     private final String content;
 }

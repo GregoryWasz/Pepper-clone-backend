@@ -1,7 +1,9 @@
 package com.pepper.backend.service;
 
+import com.pepper.backend.dto.CurrentUserDto;
 import com.pepper.backend.dto.MessageDto;
 import com.pepper.backend.dto.UsernameAndEmailDto;
+import com.pepper.backend.dto.UsernameDto;
 import com.pepper.backend.exception.AlreadyExistException;
 import com.pepper.backend.exception.ResourceNotFoundException;
 import com.pepper.backend.exception.UnauthenticatedException;
@@ -20,7 +22,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -113,5 +118,15 @@ public class UserService implements UserDetailsService {
         oldUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         userRepository.save(oldUser);
         return ResponseEntity.ok(new MessageDto("Password successfully changed"));
+    }
+
+    public ResponseEntity<?> currentUser(Principal principal){
+        User user = userRepository.findByUsername(principal.getName())
+                .orElseThrow(() -> new ResourceNotFoundException("User with name:" + principal.getName() + " not exist"));
+        return ResponseEntity.ok(new CurrentUserDto(user.getUserId(), user.getUsername()));
+    }
+
+    public List<UsernameDto> findUsersByUsernameContains(String username){
+        return userRepository.findTop5ByUsernameContains(username);
     }
 }

@@ -1,6 +1,6 @@
 package com.pepper.backend.api;
 
-import com.pepper.backend.dto.CommentDto;
+import com.pepper.backend.dto.UpdateCommentDto;
 import com.pepper.backend.dto.CreateCommentDto;
 import com.pepper.backend.dto.MessageDto;
 import com.pepper.backend.model.Comment;
@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/comments")
@@ -24,14 +27,14 @@ public class CommentController {
 
     @PostMapping("")
     @PreAuthorize("hasAnyRole('ROLE_USER')")
-    public ResponseEntity<?> addComment(@RequestBody CreateCommentDto CreateCommentDto) {
+    public ResponseEntity<?> addComment(@Valid @RequestBody CreateCommentDto CreateCommentDto) {
         return ResponseEntity.ok(commentService.addComment(CreateCommentDto));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{postId}")
     @PreAuthorize("hasAnyRole('ROLE_USER')")
-    public Comment getCommentById(@PathVariable long id) {
-        return commentService.getCommentById(id);
+    public List<Comment> getCommentsByPostId(@PathVariable long postId) {
+        return commentService.getCommentsByPostId(postId);
     }
 
     @DeleteMapping("/{id}")
@@ -43,9 +46,7 @@ public class CommentController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_USER')")
-    public Comment updateComment(@PathVariable long id, @RequestBody CommentDto commentDto) {
-        return commentService.updateCommentContent(id, commentDto);
+    public Comment updateComment(@PathVariable long id, @RequestBody UpdateCommentDto updateCommentDto) {
+        return commentService.updateCommentContent(id, updateCommentDto);
     }
-    // TODO Pagination
-    // TODO VALIDATION
 }

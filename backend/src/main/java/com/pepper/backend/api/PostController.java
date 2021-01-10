@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 
 
 @RestController
@@ -35,9 +34,9 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostById(id));
     }
 
-    @GetMapping("/title/{title}")
-    public ResponseEntity<?> getPostByTitle(@PathVariable String title) {
-        return ResponseEntity.ok(postService.getPostByTitle(title));
+    @GetMapping("/search")
+    public ResponseEntity<?> getPostByTitle(@RequestParam String q) {
+        return ResponseEntity.ok(postService.getPostByTitle(q));
     }
 
     @PutMapping("/{id}")

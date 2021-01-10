@@ -2,6 +2,7 @@ package com.pepper.backend.api;
 
 
 import com.pepper.backend.dto.UsernameAndEmailDto;
+import com.pepper.backend.dto.UsernameDto;
 import com.pepper.backend.model.User;
 import com.pepper.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -56,5 +58,14 @@ public class UserController {
     public ResponseEntity<?> changePassword(@PathVariable long id, @RequestBody User user) {
         return userService.changePassword(id, user);
     }
-    // TODO Get all user posts
+
+    @GetMapping("/currentuser")
+    public ResponseEntity<?> currentUser(Principal principal) {
+        return userService.currentUser(principal);
+    }
+
+    @GetMapping("/search")
+    public List<UsernameDto> currentUser(@RequestParam String q) {
+        return userService.findUsersByUsernameContains(q);
+    }
 }

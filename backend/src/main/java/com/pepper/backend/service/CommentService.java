@@ -1,6 +1,6 @@
 package com.pepper.backend.service;
 
-import com.pepper.backend.dto.CommentDto;
+import com.pepper.backend.dto.UpdateCommentDto;
 import com.pepper.backend.dto.CreateCommentDto;
 import com.pepper.backend.exception.ResourceNotFoundException;
 import com.pepper.backend.model.Comment;
@@ -49,10 +49,14 @@ public class CommentService {
                 .orElseThrow(() -> new ResourceNotFoundException("Comment with id " + id + " not exist"));
     }
 
-    public Comment updateCommentContent(long id, CommentDto CommentDto) {
+    public Comment updateCommentContent(long id, UpdateCommentDto UpdateCommentDto) {
         Comment databaseComment = commentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Comment with id " + id + " not exist"));
-        databaseComment.setContent(CommentDto.getContent());
+        databaseComment.setContent(UpdateCommentDto.getContent());
         return commentRepository.save(databaseComment);
+    }
+
+    public List<Comment> getCommentsByPostId(Long postId){
+        return commentRepository.findByPostId(postId);
     }
 }
