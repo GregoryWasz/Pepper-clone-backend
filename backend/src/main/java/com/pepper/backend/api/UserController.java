@@ -35,10 +35,10 @@ public class UserController {
         return userService.addUser(user);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("")
     @PreAuthorize("hasAnyRole('ROLE_USER')")
-    public ResponseEntity<?> deleteUser(@PathVariable long id) {
-        return userService.deleteUser(id);
+    public ResponseEntity<?> deleteUser(Principal principal) {
+        return userService.deleteUser(principal);
     }
 
     @PatchMapping("/change/username/{id}")

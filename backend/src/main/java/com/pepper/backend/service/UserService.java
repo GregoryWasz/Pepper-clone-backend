@@ -9,6 +9,8 @@ import com.pepper.backend.exception.ResourceNotFoundException;
 import com.pepper.backend.exception.UnauthenticatedException;
 import com.pepper.backend.model.Role;
 import com.pepper.backend.model.User;
+import com.pepper.backend.repository.CommentRepository;
+import com.pepper.backend.repository.PostRepository;
 import com.pepper.backend.repository.RoleRepository;
 import com.pepper.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +24,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
+import javax.transaction.Transactional;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
@@ -36,6 +39,10 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
 
     private final RoleRepository roleRepository;
+
+    private final CommentRepository commentRepository;
+
+    private final PostRepository postRepository;
 
     private void LoggedUserValidation(String userForChange){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -85,9 +92,12 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public ResponseEntity<?> deleteUser(long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User with id:" + id + " not exist"));
+    public ResponseEntity<?> deleteUser(Principal principal) {
+        User user = userRepository.findByUsername(principal.getName())
+                .orElseThrow(() -> new ResourceNotFoundException("User with id:" + principal.getName() + " not exist"));
+
+        commentRepository.deleteAllByUserId(user.getUserId());
+        postRepository.deleteAllByUserId(user.getUserId());
         userRepository.delete(user);
         return ResponseEntity.ok(new MessageDto("User successfully deleted"));
     }
