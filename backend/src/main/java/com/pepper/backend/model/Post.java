@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 
 @Data
@@ -24,10 +26,10 @@ public class Post {
 
     private LocalDateTime postDate = LocalDateTime.now();
 
-    @NotBlank
+    @PositiveOrZero
     private double priceBefore;
 
-    @NotBlank
+    @PositiveOrZero
     private double priceAfter;
 
     private int votes = 0;
@@ -35,8 +37,10 @@ public class Post {
     private boolean active = true;
 
     @NotBlank
+    private String dealLink;
+
+    @Positive
     private long tagId;
 
-    @NotBlank
     private long userId;
 }

@@ -1,7 +1,6 @@
 package com.pepper.backend.api;
 
 import com.pepper.backend.dto.CreatePostDto;
-import com.pepper.backend.dto.MessageDto;
 import com.pepper.backend.dto.UpdatePostDto;
 import com.pepper.backend.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 
 
 @RestController
@@ -41,16 +41,14 @@ public class PostController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_USER')")
-    public ResponseEntity<?> updatePost(@PathVariable Long id, @RequestBody UpdatePostDto updatePostDto) {
-        return ResponseEntity.ok(postService.updatePost(id, updatePostDto));
+    public ResponseEntity<?> updatePost(@PathVariable Long id, @RequestBody UpdatePostDto updatePostDto, Principal principal) {
+        return ResponseEntity.ok(postService.updatePost(id, updatePostDto, principal));
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_USER')")
-    public ResponseEntity<?> deletePost(@PathVariable Long id) {
-        postService.deletePost(id);
-        return ResponseEntity.ok(new MessageDto("Post successfully deleted"));
+    public ResponseEntity<?> deletePost(@PathVariable Long id, Principal principal) {
+        return ResponseEntity.ok(postService.deletePost(id, principal));
     }
     // TODO PAGINATION
-    // TODO VALIDATION
 }
