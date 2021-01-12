@@ -53,5 +53,4 @@ public class User implements UserDetails {
 // TODO Admin Create Admin
 // TODO Admin Site -> Delete User, Ban User, Delete Post, Delete Comment,
 // TODO VOTESYSTEM
-// TODO PICTRUES for users and posts,
-// TODO USER PROFILE
+// TODO PICTURES for users and posts,
