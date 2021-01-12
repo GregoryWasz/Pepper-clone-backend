@@ -6,6 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class UsernameAndEmailDto {
-    private String username;
-    private String email;
+    private final String username;
+    private final String email;
 }
