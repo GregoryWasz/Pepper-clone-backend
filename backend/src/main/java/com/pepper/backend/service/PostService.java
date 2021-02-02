@@ -8,6 +8,9 @@ import com.pepper.backend.repository.CommentRepository;
 import com.pepper.backend.repository.PostRepository;
 import com.pepper.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -108,5 +111,25 @@ public class PostService {
     public List<Post> getPostByTitle(String title) {
         return postRepository.findByTitleContains(title)
                 .orElseThrow(() -> new ResourceNotFoundException("Post with title " + title + " not exist"));
+    }
+
+    public Page<PostDto> PostPages(Pageable pageable) {
+        Page<Post> pagedPosts = postRepository.findAll(pageable);
+        long totalElements = pagedPosts.getTotalElements();
+        return new PageImpl<>(pagedPosts
+                .stream()
+                .map(post -> ( new PostDto(
+                        post.getPostId(),
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getPostDate(),
+                        post.getPriceBefore(),
+                        post.getPriceAfter(),
+                        post.getVotes(),
+                        post.getDealLink(),
+                        post.getTagId(),
+                        userRepository.findByUserId(post.getUserId()).getUsername()))
+                )
+                .collect(Collectors.toList()), pageable, totalElements);
     }
 }

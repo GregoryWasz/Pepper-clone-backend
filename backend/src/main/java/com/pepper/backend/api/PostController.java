@@ -4,6 +4,8 @@ import com.pepper.backend.dto.CreatePostDto;
 import com.pepper.backend.dto.UpdatePostDto;
 import com.pepper.backend.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -50,5 +52,10 @@ public class PostController {
     public ResponseEntity<?> deletePost(@PathVariable Long id, Principal principal) {
         return ResponseEntity.ok(postService.deletePost(id, principal));
     }
-    // TODO PAGINATION
+
+    @GetMapping("/page/")
+    public ResponseEntity<?> postPage(@RequestParam(defaultValue = "0", required = false) int page,
+                                      @RequestParam(defaultValue = "5", required = false) int size) {
+        return ResponseEntity.ok(postService.PostPages(PageRequest.of(page,size, Sort.by("postDate").descending() )));
+    }
 }
